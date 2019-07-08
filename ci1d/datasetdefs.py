@@ -22,9 +22,9 @@ from . interval import ConfidenceInterval1D,PredictionInterval1D
 
 
 class _Dataset(object):
-	def __init__(self, y):
-		self.y   = np.asarray(y)
-		self.J   = self.y.shape[0]  #number of observations
+	
+	y = None    #data
+	J = None    #sample size`
 	
 	@staticmethod
 	def _gca(ax):
@@ -50,9 +50,15 @@ class _Dataset(object):
 	def samplesize(self):
 		return self.J
 
+	def toarray(self):
+		return self.y.copy()
+
 
 
 class _Dataset1D(_Dataset):
+	
+	Q = None    #number of continuum nodes
+	
 	def _getx(self, x):
 		return np.arange(self.Q) if (x is None) else x
 
@@ -64,6 +70,12 @@ class _Dataset1D(_Dataset):
 
 
 class UnivariateDataset0D(_Dataset):
+	def __init__(self, y):
+		self.y   = np.asarray(y)
+		assert self.y.ndim==1, 'Data must be a list of scalars or a one-dimensional array'
+		self.J   = self.y.shape[0]  #number of observations
+		
+	
 	def __repr__(self):
 		s  = '%s\n' %self.__class__.__name__
 		s += '   sample size:  %d\n' %self.samplesize
@@ -93,6 +105,7 @@ class UnivariateDataset0D(_Dataset):
 class UnivariateDataset1D(_Dataset1D):
 	def __init__(self, y):
 		self.y   = np.asarray(y)
+		assert self.y.ndim==2, 'Data must be a a two-dimensional array'
 		self.J   = self.y.shape[0]  #number of observations
 		self.Q   = self.y.shape[1]  #number of continuum nodes
 
@@ -110,7 +123,6 @@ class UnivariateDataset1D(_Dataset1D):
 		ci    = PredictionInterval1D(self, alpha)
 		return ci
 
-
 	def plot(self, ax=None, x=None, plot_sample_mean=True):
 		ax  = self._gca(ax)
 		x   = self._getx(x)
@@ -127,15 +139,8 @@ class _BivariateDataset(_Dataset):
 	_U = None  #svd (eigenvectors)
 	_s = None  #svd (eigenvalues)
 	_R = None  #svd (rotation matrix)
+	I  = 2     #number of vector components (only I=2 supported)
 	
-	
-	def __init__(self, y):
-		self.y   = np.asarray(y)
-		self.J   = self.y.shape[0]  #number of observations
-		self.I   = self.y.shape[1]  #number of components (I must equal 2)
-		self._init_svd()
-
-
 	def _init_svd(self):
 		U,s,R    = np.linalg.svd(self.cov)
 		if np.dot(U[:,0], [0,1]) < 0:
@@ -146,45 +151,35 @@ class _BivariateDataset(_Dataset):
 		self._R  = R
 		
 	
-	
-	
-	
 	@property
 	def Maxis(self):  #major axis unit vector
 		return self._U[:,0]
 	@property
 	def maxis(self):  #minor axis unit vector
 		return self._U[:,1]
-
-	# @property
-	# def mean(self):
-	# 	return self.y.mean(axis=0)
-	# @property
-	# def std(self):
-	# 	return self.y.std(axis=0, ddof=1)
 	@property
 	def ncomponents(self):
-		return self.J
-	# @property
-	# def nobservations(self):
-	# 	return self.J
+		return self.I
 
-
-	
-	
 	def get_cov(self, bias=1):
 		return np.cov(self.y.T, bias=bias)
 	
 	cov = property(get_cov)
 	
-	
-	def toarray(self):
-		return self.y.copy()
 
 
 
 
 class BivariateDataset0D(_BivariateDataset):
+	
+	def __init__(self, y):
+		self.y   = np.asarray(y)
+		assert self.y.ndim==2, 'Data must be a a two-dimensional array'
+		self.J   = self.y.shape[0]  #number of observations
+		self.I   = self.y.shape[1]  #number of components (I must equal 2)
+		assert self.I==2, 'Only bivariate data (two vector components) supported. Number of components detected: %d' %self.I
+		self._init_svd()
+	
 	
 	def __repr__(self):
 		s  = '%s\n' %self.__class__.__name__
@@ -215,9 +210,11 @@ class BivariateDataset1D(_BivariateDataset):
 	
 	def __init__(self, y):
 		self.y   = np.asarray(y)
+		assert self.y.ndim==3, 'Data must be a a three-dimensional array'
 		self.J   = self.y.shape[0]  #number of observations
 		self.Q   = self.y.shape[1]  #number of continuum nodes
 		self.I   = self.y.shape[2]  #number of components
+		assert self.I==2, 'Only bivariate data (two vector components) supported. Number of components detected: %d' %self.I
 		self._init_svd()
 		
 		
