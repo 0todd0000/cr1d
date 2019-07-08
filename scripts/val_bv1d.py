@@ -18,13 +18,15 @@ I           = 2          #number of vector components
 fwhm        = 25         #smoothness
 mu          = np.zeros((Q,I))  #true population mean
 W           = np.eye(2)  #population covariance
-niterations = 2000       #number of datasets / experiments to simulate
+niterations = 800        #number of datasets / experiments to simulate
 in_cr       = []         #list that will hold one True or False value for each iteration
 in_pr       = []         #list that will hold one True or False value for each iteration
 
 
 #(1) Simulate:
 for i in range(niterations):
+	if i%100 == 0:
+		print('Iteration %d...' %i)
 	y       = mu + rft1d.random.multirandn1d(J, Q, I, fwhm, W)  #bivariate Gaussian 1D data
 	ynew    = mu + rft1d.random.multirandn1d(1, Q, I, fwhm, W)[0]  #an additional random observation
 	ds      = ci1d.BivariateDataset1D(y)

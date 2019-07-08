@@ -15,7 +15,7 @@ mu          = [0,0]      #true population mean
 W           = np.eye(2)  #population covariance
 J           = 30         #sample size
 I           = 2          #number of vector components
-niterations = 1000       #number of datasets / experiments to simulate
+niterations = 800        #number of datasets / experiments to simulate
 in_ci       = []         #list that will hold one True or False value for each iteration
 in_pi       = []         #list that will hold one True or False value for each iteration
 
@@ -23,6 +23,8 @@ in_pi       = []         #list that will hold one True or False value for each i
 
 #(1) Simulate:
 for i in range(niterations):
+	if i%100 == 0:
+		print('Iteration %d...' %i)
 	y       = mu + np.random.multivariate_normal(mu, W, J) #bivariate Gaussian data
 	ynew    = mu + np.random.multivariate_normal(mu, W)    #an additional random observation
 	ds      = ci1d.BivariateDataset0D(y)

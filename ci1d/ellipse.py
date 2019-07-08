@@ -28,7 +28,10 @@ class _Ellipse(object):
 		self.L1     = None
 		self.set_alpha(alpha)
 		
-
+	@staticmethod
+	def isinteger(x):
+		return (x % 1) == 0
+	
 	@property
 	def Maxis(self):  #major axis unit vector
 		return self._ds.Maxis
@@ -49,8 +52,18 @@ class _Ellipse(object):
 		return self.L0/self.L1
 	
 	@property
+	def label_short(self):
+		return self.pctstr + ' ' + self.region_type_short
+	
+	@property
 	def orientation(self):
 		return self.theta
+
+	@property
+	def pctstr(self):
+		p = 100 * ( 1 - self.alpha )
+		s = '%d'%p if self.isinteger(p) else str(p)
+		return s + '%'
 
 	@property
 	def semi_axis_lengths(self):
@@ -118,7 +131,7 @@ class _BivariateEllipse0D(_Ellipse):
 	def plot(self, ax=None, n=51, **kwdargs):
 		ax       = self._ds._gca(ax)
 		x,y      = self.sample(n=51).T
-		ax.plot(x, y, **kwdargs)
+		ax.plot(x, y, label=self.label_short, **kwdargs)
 	
 	def plot_patch(self, ax=None, **kwdargs):
 		ax                = self._ds._gca(ax)
@@ -216,7 +229,9 @@ class _BivariateEllipse1D(_Ellipse):
 
 
 class BivariateConfidenceEllipse0D(_BivariateEllipse0D):
-	ellipse_type    = 'confidence'
+	region_type       = 'confidence'
+	region_type_short = 'CE'
+	
 	
 	def set_alpha(self, alpha):
 		p,n         = self._ds.I, self._ds.J              #counts: vector components, sample size
@@ -230,7 +245,8 @@ class BivariateConfidenceEllipse0D(_BivariateEllipse0D):
 
 
 class BivariateCI20D(_BivariateEllipse0D):
-	ellipse_type    = 'ci2'
+	region_type       = 'ci2'
+	region_type_short = 'ci2'
 
 	def set_alpha(self, alpha):
 		k           = (-2*log(alpha))**.5
@@ -246,7 +262,8 @@ class BivariateCI20D(_BivariateEllipse0D):
 
 
 class BivariatePredictionEllipse0D(_BivariateEllipse0D):
-	ellipse_type    = 'prediction'
+	region_type       = 'prediction'
+	region_type_short = 'PE'
 
 	def set_alpha(self, alpha):
 		p,n         = self._ds.I, self._ds.J
@@ -262,8 +279,9 @@ class BivariatePredictionEllipse0D(_BivariateEllipse0D):
 
 
 class BivariateConfidenceEllipse1D(_BivariateEllipse1D):
-	ellipse_type    = 'confidence'
-	Class0D         = BivariateConfidenceEllipse0D
+	region_type       = 'confidence'
+	region_type_short = 'CE'
+	Class0D           = BivariateConfidenceEllipse0D
 	
 	def set_alpha(self, alpha):
 		p,n         = self._ds.I, self._ds.J              #counts: vector components, sample size
@@ -283,8 +301,9 @@ class BivariateConfidenceEllipse1D(_BivariateEllipse1D):
 
 
 class BivariateCI21D(_BivariateEllipse1D):
-	ellipse_type    = 'ci2'
-	Class0D         = BivariateCI20D
+	region_type       = 'ci2'
+	region_type_short = 'ci2'
+	Class0D           = BivariateCI20D
 
 	def set_alpha(self, alpha, dmy=None):
 		k           = (-2*log(alpha))**.5
@@ -304,8 +323,9 @@ class BivariateCI21D(_BivariateEllipse1D):
 
 
 class BivariatePredictionEllipse1D(_BivariateEllipse1D):
-	ellipse_type    = 'prediction'
-	Class0D         = BivariatePredictionEllipse0D
+	region_type       = 'prediction'
+	region_type_short = 'PE'
+	Class0D           = BivariatePredictionEllipse0D
 
 	def set_alpha(self, alpha):
 		p,n         = self._ds.I, self._ds.J

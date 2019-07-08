@@ -199,10 +199,14 @@ class BivariateDataset0D(_BivariateDataset):
 	def get_prediction_region(self, alpha=0.05):
 		return BivariatePredictionEllipse0D(self, alpha)
 
-	def plot(self, ax=None, **kwdargs):
+	def plot(self, ax=None, plot_sample_mean=True, **kwdargs):
 		ax  = self._gca(ax)
 		x,y = self.y.T
-		return ax.plot(x, y, 'o', **kwdargs)
+		ax.plot(x, y, 'o', **kwdargs)
+		if plot_sample_mean:
+			x,y  = self.mean
+			ax.plot( x, y, 'ko', ms=15, mfc='w', label='Sample mean')
+
 
 
 
