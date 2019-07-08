@@ -124,15 +124,7 @@ class _Interval1D(_Interval):
 		ax.plot(x, self.x0, label=self.label_short, **kwdargs)
 		ax.plot(x, self.x1, **kwdargs)
 		
-		# x        = 0 if (x is None) else x
-		# w,ww     = 0.5*width, 0.25 * width
-		# y0,y1    = self.interval
-		# ax.plot( [-w, w], [y0,y0], color=color, label=self.label_short)
-		# ax.plot( [-w, w], [y1,y1], color=color)
-		# verts    = [(-ww,y0), (ww,y0),    (ww,y1), (-ww,y1)]
-		# patches  = PatchCollection([Polygon(verts)])
-		# ax.add_collection(patches)
-		# pyplot.setp(patches, facecolor=color, alpha=0.5, linewidth=0)
+
 
 
 

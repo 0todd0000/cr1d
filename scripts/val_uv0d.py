@@ -21,7 +21,7 @@ in_pi       = []    #list that will hold one True or False value for each iterat
 #(1) Simulate:
 for i in range(niterations):
 	y       = mu + np.random.randn(J) #Gaussian data
-	ynew    = mu + np.random.randn()  #and additional random observation
+	ynew    = mu + np.random.randn()  #an additional random observation
 	ds      = ci1d.UnivariateDataset0D(y)
 	ci      = ds.get_confidence_region(alpha=alpha)
 	pi      = ds.get_prediction_region(alpha=alpha)
@@ -36,8 +36,8 @@ prop_out    = 1 - prop_in       #proportion of experiments where the true mean l
 print('Proportion of random datasets with mu inside CI: %.3f' %prop_in)
 print('Proportion of random datasets with mu outside CI: %.3f' %prop_out)
 ### prediction region:
-prop_in     = np.mean( in_pi )  #proportion of experiments where the true mean lies inside the CI 
-prop_out    = 1 - prop_in       #proportion of experiments where the true mean lies outside the CI 
+prop_in     = np.mean( in_pi )  #proportion of experiments where the true mean lies inside the PI 
+prop_out    = 1 - prop_in       #proportion of experiments where the true mean lies outside the PI 
 print('Proportion of random datasets with new observation inside PI: %.3f' %prop_in)
 print('Proportion of random datasets with new observation outside PI: %.3f' %prop_out)
 

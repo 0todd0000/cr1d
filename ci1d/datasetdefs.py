@@ -193,20 +193,20 @@ class BivariateDataset0D(_BivariateDataset):
 	def get_ci2(self, alpha=0.05):
 		return BivariateCI20D(self, alpha)
 
-	def get_confidence_ellipse(self, alpha=0.05):
+	def get_confidence_region(self, alpha=0.05):
 		return BivariateConfidenceEllipse0D(self, alpha)
 
-	def get_prediction_ellipse(self, alpha=0.05):
+	def get_prediction_region(self, alpha=0.05):
 		return BivariatePredictionEllipse0D(self, alpha)
 
-	def plot_scatter(self, ax=None, **kwdargs):
+	def plot(self, ax=None, **kwdargs):
 		ax  = self._gca(ax)
 		x,y = self.y.T
 		return ax.plot(x, y, 'o', **kwdargs)
 
 
 
-class BivariateDataset1D(_BivariateDataset):
+class BivariateDataset1D(_BivariateDataset, _Dataset1D):
 	
 	def __init__(self, y):
 		self.y   = np.asarray(y)
@@ -244,11 +244,11 @@ class BivariateDataset1D(_BivariateDataset):
 	def get_ci2(self, alpha=0.05):
 		return BivariateCI21D(self, alpha)
 
-	def get_confidence_ellipse(self, alpha=0.05, fwhm=None):
-		return BivariateConfidenceEllipse1D(self, alpha, fwhm)
+	def get_confidence_region(self, alpha=0.05):
+		return BivariateConfidenceEllipse1D(self, alpha)
 
-	def get_prediction_ellipse(self, alpha=0.05, fwhm=None):
-		return BivariatePredictionEllipse1D(self, alpha, fwhm)
+	def get_prediction_region(self, alpha=0.05):
+		return BivariatePredictionEllipse1D(self, alpha)
 
 
 	def get_cov(self, bias=1):
@@ -259,5 +259,20 @@ class BivariateDataset1D(_BivariateDataset):
 	
 	def get_frame(self, frame):
 		return BivariateDataset0D(  self.y[:,frame,:]  )
+		
+		
+	def plot(self, x=None, plot_sample_mean=True, lw=0.5):
+		x    = self._getx(x)
+		pyplot.figure(figsize=(8,3))
+		ax0  = pyplot.axes([0.05, 0.10, 0.4, 0.8])
+		ax1  = pyplot.axes([0.55, 0.10, 0.4, 0.8])
+		ax0.plot( x, self.y[:,:,0].T, '0.7', lw=lw )
+		ax1.plot( x, self.y[:,:,1].T, '0.7', lw=lw )
+		ax0.plot( x, self.y[:,:,0].mean(axis=0), 'k', lw=3, label='Sample mean' )
+		ax1.plot( x, self.y[:,:,1].mean(axis=0), 'k', lw=3 )
+		ax0.set_title('Component 1')
+		ax1.set_title('Component 2')
+		ax0.legend()
+		
 
 	

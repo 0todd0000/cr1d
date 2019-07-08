@@ -7,9 +7,18 @@ This package contains:
 * Scripts for replicating results from the main paper (see below)
 * Notebooks for reviewing theory and for standalone, step-by-step calculations
 
+Requirements:
+
+* Python 3.x
+* NumPy
+* SciPy
+* Matplotlib
+* [spm1d](http://www.spm1d.org)
+
+
 Please consider citing:
 
-Pataky TC, Yamagata M, Ichihashi N, Duarte M (in review). Correction to: "CI2 for creating and comparing confidence-intervals for time-series bivariate plots" Gait & Posture.
+Pataky TC, Yamagata M, Ichihashi N, Duarte M (in review). Adjustment to: "CI2 for creating and comparing confidence-intervals for time-series bivariate plots" Gait & Posture.
 
 
 <mark>Note</mark>: **ci1d** does not support ellipsoid or hyperellipsoids calculations for multivariate data, they are not implemented in this package because they cannot be readily visualized.

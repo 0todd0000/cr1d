@@ -21,8 +21,8 @@ from matplotlib import pyplot,patches
 
 class _Ellipse(object):
 	
-	def __init__(self, bv, alpha=None):
-		self._bv    = bv
+	def __init__(self, ds, alpha=None):
+		self._ds    = ds
 		self.alpha  = 0.05 if alpha is None else alpha
 		self.L0     = None
 		self.L1     = None
@@ -31,10 +31,10 @@ class _Ellipse(object):
 
 	@property
 	def Maxis(self):  #major axis unit vector
-		return self._bv.Maxis
+		return self._ds.Maxis
 	@property
 	def maxis(self):  #minor axis unit vector
-		return self._bv.maxis
+		return self._ds.maxis
 
 	@property
 	def area(self):
@@ -42,7 +42,7 @@ class _Ellipse(object):
 	
 	@property
 	def centroid(self):
-		return self._bv.mean
+		return self._ds.mean
 
 	@property
 	def eccentricity(self):
@@ -78,7 +78,7 @@ class _Ellipse(object):
 
 	def isoutside(self, points):
 		rc  = points - self.centroid   #centered points
-		rct = np.asarray( np.matrix(self._bv._R) * np.matrix(rc).T).T  #centered and un-rotated points
+		rct = np.asarray( np.matrix(self._ds._R) * np.matrix(rc).T).T  #centered and un-rotated points
 		rad = (rct**2 / self.semi_axis_lengths**2).sum(axis=1)   #distance from center of centered, un-rotated and un-scaled points
 		b   = float(rad) > 1   #check if points lie inside or outside the unit sphere
 		return b
@@ -98,7 +98,7 @@ class _BivariateEllipse0D(_Ellipse):
 		s += '   semi axis lengths:  %s\n'   %[self.L0, self.L1]
 		s += '   eccentricity:       %.3f\n' %self.eccentricity
 		s += '------------------\n'
-		s += str(self._bv)
+		s += str(self._ds)
 		return s
 	
 
@@ -116,13 +116,13 @@ class _BivariateEllipse0D(_Ellipse):
 
 
 	def plot(self, ax=None, n=51, **kwdargs):
-		ax       = self._bv._gca(ax)
+		ax       = self._ds._gca(ax)
 		x,y      = self.sample(n=51).T
 		ax.plot(x, y, **kwdargs)
 	
 	def plot_patch(self, ax=None, **kwdargs):
-		ax                = self._bv._gca(ax)
-		Maxis             = self._bv.Maxis
+		ax                = self._ds._gca(ax)
+		Maxis             = self._ds.Maxis
 		theta             = 180/pi * atan2(Maxis[1], Maxis[0])
 		patch             = patches.Ellipse(self.centroid, 2*self.L0, 2*self.L1, theta)
 		ax.add_patch(patch)
@@ -130,7 +130,7 @@ class _BivariateEllipse0D(_Ellipse):
 		return patch
 
 	def plot_axes(self, ax=None, **kwdargs):
-		ax          = self._bv._gca(ax)
+		ax          = self._ds._gca(ax)
 		X0,Y0       = self.centroid - self.L0 * self.Maxis
 		X1,Y1       = self.centroid + self.L0 * self.Maxis
 		x0,y0       = self.centroid - self.L1 * self.maxis
@@ -140,7 +140,7 @@ class _BivariateEllipse0D(_Ellipse):
 		return h0,h1
 
 	def plot_semi_axes(self, ax=None, **kwdargs):
-		ax          = self._bv._gca(ax)
+		ax          = self._ds._gca(ax)
 		X0,Y0       = self.centroid
 		X1,Y1       = self.centroid + self.L0 * self.Maxis
 		x0,y0       = self.centroid
@@ -153,7 +153,7 @@ class _BivariateEllipse0D(_Ellipse):
 		u     = np.linspace(0, 2*pi, n)
 		x     = self.L0 * np.cos(u)
 		y     = self.L1 * np.sin(u)
-		r     = np.dot( np.vstack([x,y]).T , self._bv._R)
+		r     = np.dot( np.vstack([x,y]).T , self._ds._R)
 		return r + self.centroid
 
 
@@ -161,20 +161,20 @@ class _BivariateEllipse0D(_Ellipse):
 
 class _BivariateEllipse1D(_Ellipse):
 	
-	def __init__(self, bv, alpha=None, fwhm=None):
-		self._bv    = bv
+	def __init__(self, ds, alpha=None):
+		self._ds    = ds
 		self.alpha  = 0.05 if alpha is None else alpha
-		self.fwhm   = fwhm
+		self.fwhm   = None
 		self.L0     = None
 		self.L1     = None
-		self.set_alpha(alpha, fwhm)
+		self.set_alpha(alpha)
 	
 	
 	def __repr__(self):
 		s  = '%s\n' %self.__class__.__name__
 		s += '   alpha:              %.3f\n' %self.alpha
 		s += '------------------\n'
-		s += str(self._bv)
+		s += str(self._ds)
 		return s
 	
 
@@ -193,49 +193,22 @@ class _BivariateEllipse1D(_Ellipse):
 	def thetad(self):
 		return np.degrees(self.theta)
 
-	# def isfieldoutside(self, y):
-	# 	# return np.array(   [  self.get_frame(i).isoutside(yy)  for i,yy in enumerate(y)]   )
-	#
-	#
-	# 	rc  = y - self.centroid   #centered points
-	# 	L   = self.semi_axis_lengths
-	# 	b   = []
-	# 	for i in range(self._bv.Q):
-	# 		rct = np.asarray( np.matrix(self._bv._R[i]) * np.matrix(rc[i]).T).T  #centered and un-rotated points
-	# 		rad = (rct**2 / L[i]**2).sum(axis=1)   #distance from center of centered, un-rotated and un-scaled points
-	# 		bb  = float(rad) > 1   #check if points lie inside or outside the unit sphere
-	# 		b.append(bb)
-	# 	return np.asarray(b)
-	#
-	# 	# for i in range(self._bv.Q):
-	# 	# 	mu  = y[i]
-	# 	# 	e   =
-	# 	# 	e.
-	#
-	# 	# rc  = points - self.centroid   #centered points
-	# 	# L   = self.semi_axis_lengths
-	# 	# b   = []
-	# 	# for i in range(self._bv.Q):
-	# 	# 	rct = np.asarray( np.matrix(self._bv._R[i]) * np.matrix(rc[i]).T).T  #centered and un-rotated points
-	# 	# 	rad = (rct**2 / L[i]**2).sum(axis=1)   #distance from center of centered, un-rotated and un-scaled points
-	# 	# 	bb  = float(rad) > 1   #check if points lie inside or outside the unit sphere
-	# 	# 	b.append(bb)
-	# 	# return np.asarray(b)
-
-
+	def isinside(self, points):
+		return not self.isoutside(points)
+	
 	def isoutside(self, points):
 		rc  = points - self.centroid   #centered points
 		L   = self.semi_axis_lengths
 		b   = []
-		for i in range(self._bv.Q):
-			rct = np.asarray( np.matrix(self._bv._R[i]) * np.matrix(rc[i]).T).T  #centered and un-rotated points
+		for i in range(self._ds.Q):
+			rct = np.asarray( np.matrix(self._ds._R[i]) * np.matrix(rc[i]).T).T  #centered and un-rotated points
 			rad = (rct**2 / L[i]**2).sum(axis=1)   #distance from center of centered, un-rotated and un-scaled points
 			bb  = float(rad) > 1   #check if points lie inside or outside the unit sphere
 			b.append(bb)
-		return np.asarray(b)
+		return np.any(b)
 	
 	def get_frame(self, frame):
-		y   = self._bv.get_frame(frame)
+		y   = self._ds.get_frame(frame)
 		return self.Class0D(y, self.alpha)
 
 
@@ -246,11 +219,11 @@ class BivariateConfidenceEllipse0D(_BivariateEllipse0D):
 	ellipse_type    = 'confidence'
 	
 	def set_alpha(self, alpha):
-		p,n         = self._bv.I, self._bv.J              #counts: vector components, sample size
+		p,n         = self._ds.I, self._ds.J              #counts: vector components, sample size
 		df          = p, n - p                            #degrees of freedom (F statistic)
 		F_crit      = stats.f.isf(alpha, df[0], df[1])    #critical F value
 		T2_crit     = 2/(n-2) * F_crit / (n/(n-1))        #critical Hotelling's T2 value
-		a,b         = np.sqrt(self._bv._s * T2_crit)      #ellipse axis lengths
+		a,b         = np.sqrt(self._ds._s * T2_crit)      #ellipse axis lengths
 		self.alpha  = alpha
 		self.L0     = a
 		self.L1     = b
@@ -261,7 +234,7 @@ class BivariateCI20D(_BivariateEllipse0D):
 
 	def set_alpha(self, alpha):
 		k           = (-2*log(alpha))**.5
-		ABCD        = self._bv.get_cov(bias=0)
+		ABCD        = self._ds.get_cov(bias=0)
 		lam,IJKL    = np.linalg.eig(ABCD)
 		lambdas     = np.matrix(np.diag(lam))
 		theta       = np.arctan2(IJKL[1,:], IJKL[0,:])
@@ -276,9 +249,9 @@ class BivariatePredictionEllipse0D(_BivariateEllipse0D):
 	ellipse_type    = 'prediction'
 
 	def set_alpha(self, alpha):
-		p,n         = self._bv.I, self._bv.J
+		p,n         = self._ds.I, self._ds.J
 		fppf        = stats.f.ppf(1-alpha, p, n-p)*(n-1)*p*(n+1)/n/(n-p)
-		a,b         = np.sqrt(self._bv._s * fppf)
+		a,b         = np.sqrt(self._ds._s * fppf)
 		self.alpha  = alpha
 		self.L0     = a
 		self.L1     = b
@@ -292,18 +265,20 @@ class BivariateConfidenceEllipse1D(_BivariateEllipse1D):
 	ellipse_type    = 'confidence'
 	Class0D         = BivariateConfidenceEllipse0D
 	
-	def set_alpha(self, alpha, fwhm):
-		p,n         = self._bv.I, self._bv.J              #counts: vector components, sample size
+	def set_alpha(self, alpha):
+		p,n         = self._ds.I, self._ds.J              #counts: vector components, sample size
 		df          = p, n - p                            #degrees of freedom (F statistic)
-		Q           = self._bv.Q
-		F_crit      = rft1d.f.isf(alpha, df, Q, fwhm)  #critical F value
+		Q           = self._ds.Q
+		m           = self._ds.mean                       #sample mean
+		r           = self._ds.y - m                      #residuals
+		efwhm       = rft1d.geom.estimate_fwhm(np.vstack([r[:,:,0], r[:,:,1]]))  #estimated smoothness
+		F_crit      = rft1d.f.isf(alpha, df, Q, efwhm)  #critical F value
 		T2_crit     = 2/(n-2) * F_crit / (n/(n-1))        #critical Hotelling's T2 value
-		a,b         = np.sqrt(self._bv._s * T2_crit).T    #ellipse axis lengths
+		a,b         = np.sqrt(self._ds._s * T2_crit).T    #ellipse axis lengths
 		self.alpha  = alpha
-		self.fwhm   = fwhm
+		self.fwhm   = efwhm
 		self.L0     = a
 		self.L1     = b
-
 
 
 
@@ -313,7 +288,7 @@ class BivariateCI21D(_BivariateEllipse1D):
 
 	def set_alpha(self, alpha, dmy=None):
 		k           = (-2*log(alpha))**.5
-		ABCD        = self._bv.get_cov(bias=0)
+		ABCD        = self._ds.get_cov(bias=0)
 		L0,L1       = [],[]
 		for abcd in ABCD:
 			lam,IJKL    = np.linalg.eig(abcd)
@@ -332,12 +307,15 @@ class BivariatePredictionEllipse1D(_BivariateEllipse1D):
 	ellipse_type    = 'prediction'
 	Class0D         = BivariatePredictionEllipse0D
 
-	def set_alpha(self, alpha, fwhm):
-		p,n         = self._bv.I, self._bv.J
+	def set_alpha(self, alpha):
+		p,n         = self._ds.I, self._ds.J
 		df          = p, n - p                            #degrees of freedom (F statistic)
-		Q           = self._bv.Q
-		fppf        = rft1d.f.isf(alpha, df, Q, fwhm) * (n-1)*p*(n+1)/n/(n-p)
-		a,b         = np.sqrt(self._bv._s * fppf).T
+		Q           = self._ds.Q
+		m           = self._ds.mean                       #sample mean
+		r           = self._ds.y - m                      #residuals
+		efwhm       = rft1d.geom.estimate_fwhm(np.vstack([r[:,:,0], r[:,:,1]]))  #estimated smoothness
+		fppf        = rft1d.f.isf(alpha, df, Q, efwhm) * (n-1)*p*(n+1)/n/(n-p)
+		a,b         = np.sqrt(self._ds._s * fppf).T
 		self.alpha  = alpha
 		self.L0     = a
 		self.L1     = b
