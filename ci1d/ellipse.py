@@ -245,8 +245,8 @@ class BivariateConfidenceEllipse0D(_BivariateEllipse0D):
 
 
 class BivariateCI20D(_BivariateEllipse0D):
-	region_type       = 'ci2'
-	region_type_short = 'ci2'
+	region_type       = 'CI2'
+	region_type_short = 'CI2'
 
 	def set_alpha(self, alpha):
 		k           = (-2*log(alpha))**.5
