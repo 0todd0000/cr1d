@@ -13,7 +13,7 @@ from math import sqrt,pi,cos,sin,log
 import numpy as np
 from scipy import stats
 from scipy.special import gamma
-from matplotlib import pyplot
+from matplotlib import pyplot as plt
 from . ellipse import BivariateCI20D, BivariateConfidenceEllipse0D, BivariatePredictionEllipse0D
 from . ellipse import BivariateCI21D, BivariateConfidenceEllipse1D, BivariatePredictionEllipse1D
 from . interval import ConfidenceInterval0D,PredictionInterval0D
@@ -29,9 +29,9 @@ class _Dataset(object):
 	@staticmethod
 	def _gca(ax):
 		if ax is None:
-			ax = pyplot.gca()
+			ax = plt.gca()
 		else:
-			assert isinstance(ax, pyplot.Axes), 'ax must be None or a matplotlib axes object'
+			assert isinstance(ax, plt.Axes), 'ax must be None or a matplotlib axes object'
 		return ax
 
 	@property
@@ -128,7 +128,7 @@ class UnivariateDataset1D(_Dataset1D):
 		x   = self._getx(x)
 		h   = ax.plot(x, self.y.T, '-', color='0.7')
 		if plot_sample_mean:
-			pyplot.setp(h, lw=0.5)
+			plt.setp(h, lw=0.5)
 			ax.plot( x, self.mean, 'k', lw=3, label='Sample mean')
 
 
@@ -267,9 +267,9 @@ class BivariateDataset1D(_BivariateDataset, _Dataset1D):
 		
 	def plot(self, x=None, plot_sample_mean=True, lw=0.5):
 		x    = self._getx(x)
-		pyplot.figure(figsize=(8,3))
-		ax0  = pyplot.axes([0.05, 0.10, 0.4, 0.8])
-		ax1  = pyplot.axes([0.55, 0.10, 0.4, 0.8])
+		plt.figure(figsize=(8,3))
+		ax0  = plt.axes([0.05, 0.10, 0.4, 0.8])
+		ax1  = plt.axes([0.55, 0.10, 0.4, 0.8])
 		ax0.plot( x, self.y[:,:,0].T, '0.7', lw=lw )
 		ax1.plot( x, self.y[:,:,1].T, '0.7', lw=lw )
 		ax0.plot( x, self.y[:,:,0].mean(axis=0), 'k', lw=3, label='Sample mean' )

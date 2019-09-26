@@ -12,9 +12,10 @@ from math import pi,atan2,degrees,cos,sin,log
 import numpy as np
 from scipy import stats
 from scipy.special import gamma
-from matplotlib import pyplot
+from matplotlib import pyplot as plt
+from matplotlib import patches
 from spm1d import rft1d
-from matplotlib import pyplot,patches
+
 
 
 
@@ -139,7 +140,7 @@ class _BivariateEllipse0D(_Ellipse):
 		theta             = 180/pi * atan2(Maxis[1], Maxis[0])
 		patch             = patches.Ellipse(self.centroid, 2*self.L0, 2*self.L1, theta)
 		ax.add_patch(patch)
-		pyplot.setp(patch, **kwdargs)
+		plt.setp(patch, **kwdargs)
 		return patch
 
 	def plot_axes(self, ax=None, **kwdargs):

@@ -12,11 +12,10 @@ from math import pi,atan2,degrees,cos,sin,log
 import numpy as np
 from scipy import stats
 from scipy.special import gamma
-from matplotlib import pyplot
-from spm1d import rft1d
-from matplotlib import pyplot
+from matplotlib import pyplot as plt
 from matplotlib.patches import Polygon
 from matplotlib.collections import PatchCollection
+from spm1d import rft1d
 
 
 
@@ -99,7 +98,7 @@ class _Interval0D(_Interval):
 		verts    = [(-ww,y0), (ww,y0),    (ww,y1), (-ww,y1)]
 		patches  = PatchCollection([Polygon(verts)])
 		ax.add_collection(patches)
-		pyplot.setp(patches, facecolor=color, alpha=0.5, linewidth=0)
+		plt.setp(patches, facecolor=color, alpha=0.5, linewidth=0)
 
 
 class _Interval1D(_Interval):
