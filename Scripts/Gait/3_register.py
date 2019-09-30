@@ -41,15 +41,15 @@ def interp1d(y, n=101):
 
 
 
-# #(1) Register all:
-# dir0        = Path( __file__ ).parents[2]                     # Main repository directory
-# dirProc     = os.path.join(dir0, 'Data', 'Gait', 'Processed') # Processed data directory
-# fnameNPZ0   = os.path.join(dirProc, '2_segmented.npz')
-# fnameNPZ1   = os.path.join(dirProc, '3_registered.npz')
-# with np.load(fnameNPZ0, allow_pickle=True) as Z:
-# 	y,cond,foot = [Z[s] for s in ['y','cond','foot']]
-# yr          = np.array([[interp1d(yyy, n=101)  for yyy in yy.T] for yy in y]).swapaxes(1, 2)
-# np.savez_compressed(fnameNPZ1, y=yr, cond=cond, foot=foot)
+#(1) Register all:
+dir0        = Path( __file__ ).parents[2]                     # Main repository directory
+dirProc     = os.path.join(dir0, 'Data', 'Gait', 'Processed') # Processed data directory
+fnameNPZ0   = os.path.join(dirProc, '2_segmented.npz')
+fnameNPZ1   = os.path.join(dirProc, '3_registered.npz')
+with np.load(fnameNPZ0, allow_pickle=True) as Z:
+	y,cond,foot = [Z[s] for s in ['y','cond','foot']]
+yr          = np.array([[interp1d(yyy, n=101)  for yyy in yy.T] for yy in y]).swapaxes(1, 2)
+np.savez_compressed(fnameNPZ1, y=yr, cond=cond, foot=foot)
 
 
 

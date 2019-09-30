@@ -48,21 +48,21 @@ np.savez_compressed(fnameNPZ1, y=ys, cond=cond, foot=foot)
 
 
 
-# #(2) Check segmentation:  (development purposes)
-# dir0        = Path( __file__ ).parents[2]                     # Main repository directory
-# dirProc     = os.path.join(dir0, 'Data', 'Gait', 'Processed') # Processed data directory
-# fnameNPZ    = os.path.join(dirProc, '2_segmented.npz')
-# with np.load(fnameNPZ, allow_pickle=True) as Z:
-# 	y,cond,foot = [Z[s] for s in ['y','cond','foot']]
-# #plot:
-# plt.close('all')
-# fig,AX  = plt.subplots(2, 2, figsize=(8,6))
-# colors  = 'b', 'g', 'r'
-# for ax,c,f in zip(AX.flatten(), [0,0,1,1], [0,1,0,1] ):
-# 	ind = (cond==c) & (foot==f)
-# 	yy  = y[ind]
-# 	for ii in range(3):
-# 		for yyy in yy:
-# 			ax.plot(yyy[:,ii], color=colors[ii])
-# plt.show()
+#(2) Check segmentation:  (development purposes)
+dir0        = Path( __file__ ).parents[2]                     # Main repository directory
+dirProc     = os.path.join(dir0, 'Data', 'Gait', 'Processed') # Processed data directory
+fnameNPZ    = os.path.join(dirProc, '2_segmented.npz')
+with np.load(fnameNPZ, allow_pickle=True) as Z:
+	y,cond,foot = [Z[s] for s in ['y','cond','foot']]
+#plot:
+plt.close('all')
+fig,AX  = plt.subplots(2, 2, figsize=(8,6))
+colors  = 'b', 'g', 'r'
+for ax,c,f in zip(AX.flatten(), [0,0,1,1], [0,1,0,1] ):
+	ind = (cond==c) & (foot==f)
+	yy  = y[ind]
+	for ii in range(3):
+		for yyy in yy:
+			ax.plot(yyy[:,ii], color=colors[ii])
+plt.show()
 
