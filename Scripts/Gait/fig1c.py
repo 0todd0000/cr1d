@@ -1,7 +1,5 @@
 '''
-Register the segmented ground reaction force (GRF) data from the Gait experiment.
-
-"Register" = temporally align. Here simple linear interpolation (101 nodes) is used.
+Create Fig.1c from the main manuscript.
 '''
 
 
@@ -55,4 +53,4 @@ plt.setp(ax.get_xticklabels() + ax.get_yticklabels(), size=8, name=fontname)
 plt.show()
 
 
-plt.savefig( os.path.join( os.path.dirname(__file__), 'figs', 'fig1c.pdf') )
+# plt.savefig( os.path.join( os.path.dirname(__file__), 'figs', 'fig1c.pdf') )

@@ -1,7 +1,9 @@
 '''
-Register the segmented ground reaction force (GRF) data from the Gait experiment.
+Create Fig.2b from the main manuscript.
 
-"Register" = temporally align. Here simple linear interpolation (101 nodes) is used.
+NOTE: the 3D visualization from the main script was generated
+using Blender (blender.org);  this Blender functionality is not
+supported in this repository.
 '''
 
 
