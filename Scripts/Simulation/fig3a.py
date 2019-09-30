@@ -30,7 +30,7 @@ plt.show()
 
 
 
-
+# plt.savefig( os.path.join( os.path.dirname(__file__), 'figs', 'fig3a.pdf') )
 
 
 
