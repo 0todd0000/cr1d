@@ -7,7 +7,7 @@ import os
 from pathlib import Path
 import numpy as np
 from matplotlib import pyplot as plt
-import ci1d
+import cr1d
 
 
 
@@ -42,7 +42,7 @@ fig,AX   = plt.subplots(1, 2, figsize=(8,3))
 ax0,ax1  = AX.flatten()
 alpha    = 0.05
 for i,(ax,yy) in enumerate( zip([ax0,ax1], [y0,y1]) ):
-	bv     = ci1d.BivariateDataset0D(yy)
+	bv     = cr1d.BivariateDataset0D(yy)
 	cr     = bv.get_confidence_region(alpha)
 	pr     = bv.get_prediction_region(alpha)
 	ci2    = bv.get_ci2(alpha)

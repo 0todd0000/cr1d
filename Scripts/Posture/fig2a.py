@@ -11,7 +11,7 @@ import os
 from pathlib import Path
 import numpy as np
 from matplotlib import pyplot as plt
-import ci1d
+import cr1d
 
 
 
@@ -30,8 +30,8 @@ y1      -= y1.mean(axis=0) # centered
 
 
 #(1) Compute prediction ellipses:
-bv0      = ci1d.BivariateDataset0D(y0)
-bv1      = ci1d.BivariateDataset0D(y1)
+bv0      = cr1d.BivariateDataset0D(y0)
+bv1      = cr1d.BivariateDataset0D(y1)
 pe0      = bv0.get_prediction_region()
 pe1      = bv1.get_prediction_region()
 

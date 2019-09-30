@@ -7,7 +7,7 @@ import os
 from pathlib import Path
 import numpy as np
 from matplotlib import pyplot as plt
-import ci1d
+import cr1d
 
 
 
@@ -30,7 +30,7 @@ yy          = y[i,ind,1:]
 
 #(1) Create Bivariate dataset and get regions:
 alpha  = 0.05
-bv     = ci1d.BivariateDataset0D(yy)
+bv     = cr1d.BivariateDataset0D(yy)
 cr     = bv.get_confidence_region(alpha)
 pr     = bv.get_prediction_region(alpha)
 ci2    = bv.get_ci2(alpha)

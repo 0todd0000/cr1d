@@ -1,7 +1,7 @@
 '''
 Validate prediction and confidence regions for bivariate 0D data.
 
-Refer to Appendix F for details regarding the ci1d and spm1d packages, and in particular how to:
+Refer to Appendix F for details regarding the cr1d and spm1d packages, and in particular how to:
 1. Simulate random bivariate data
 2. Contruct confidence and prediction regions
 3. Check whether bivariate points lie within the caluclated regions
@@ -11,14 +11,14 @@ import os
 from pathlib import Path
 import numpy as np
 from matplotlib import pyplot as plt
-import ci1d
+import cr1d
 
 
 
 def run_single_iteration(J):
 	y           = np.random.multivariate_normal(mu, W, J) # bivariate Gaussian data
 	ynew        = np.random.multivariate_normal(mu, W)    # an additional random observation
-	ds          = ci1d.BivariateDataset0D(y)
+	ds          = cr1d.BivariateDataset0D(y)
 	cr          = ds.get_confidence_region(alpha=alpha)
 	pr          = ds.get_prediction_region(alpha=alpha)
 	ci2         = ds.get_ci2(alpha=alpha)

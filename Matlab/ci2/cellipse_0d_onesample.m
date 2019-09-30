@@ -1,7 +1,7 @@
 function [XY,theta,IJKL,lambdas]=cellipse_0d_onesample(x,y,alpha) %calculates ellipse
 %Input: x and y are 1 column each; p probability to scale ellipse, e.g. 0.95
 %Output: XY: ellipse data; theta: axes angles; IJKL/lambdas: eigen vectors/values
-%modified from: https://github.com/0todd0000/ci1d
+%modified from: https://github.com/0todd0000/cr1d
 ABCD    = cov(x,y); %2x2 covariance matrix of x and y
 [IJKL,lambdas]=eig(ABCD); %scaled eigen vectors and values
 p          = 2;

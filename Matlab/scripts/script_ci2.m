@@ -29,7 +29,7 @@ close all
 
 
 %(0) Load data:
-fname   = '/Users/todd/GitHub/ci1d/Data/walking_grf.mat';
+fname   = '/Users/todd/GitHub/cr1d/Data/walking_grf.mat';
 load(fname, 'grfA', 'grfB')
 
 Q          = size(grfA,2);
