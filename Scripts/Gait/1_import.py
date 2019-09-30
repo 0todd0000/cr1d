@@ -23,7 +23,7 @@ def load_gait_csv(fname):
 
 # #(0) Import single trial:  (development purposes)
 # dir0        = Path( __file__ ).parents[2]   #main repository directory
-# dirData     = os.path.join(dir0, 'Data', 'Gait', 'raw')
+# dirData     = os.path.join(dir0, 'Data', 'Gait', 'Raw')
 # fnameCSV    = os.path.join(dirData, 'NormalGait_01.csv')
 # yR,yL       = load_gait_csv(fnameCSV)
 # #plot:

@@ -20,7 +20,7 @@ def load_posture_csv(fname):
 
 # #(0) Import single trial:  (development purposes)
 # dir0        = Path( __file__ ).parents[2]   #main repository directory
-# dirData     = os.path.join(dir0, 'Data', 'Posture', 'raw')
+# dirData     = os.path.join(dir0, 'Data', 'Posture', 'Raw')
 # fnameCSV    = os.path.join(dirData, 'Quiet_01.csv')
 # cop         = load_posture_csv(fnameCSV)
 # #plot:
