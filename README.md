@@ -20,5 +20,9 @@ Please cite:
 
 Pataky TC, Yamagata M, Ichihashi N, Duarte M (in review). Correction to ``CI2 for creating and comparing confidence-intervals for time-series bivariate plots'', with clarifications of confidence vs. prediction regions and 0D vs. 1D analyses. Gait & Posture.
 
+____
 
-<span style="background-color: #FFFF00">Note</span>: **cr1d** does not support ellipsoid or hyperellipsoids calculations for multivariate data, they are not implemented in this package because they cannot be readily visualized.
+:bangbang: WARNING! **cr1d** regions pertain only to ONE-SAMPLE designs and should NOT be used in for other designs, like two-sample comparisons, paired comparisons or ANOVA. 
+
+
+:black_small_square: Note: **cr1d** does not support ellipsoid or hyperellipsoid calculations (i.e., confidence regions for multivariate data with more than two components).
