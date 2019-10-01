@@ -8,16 +8,20 @@ use the bici.data module to create bivariate dataset objects, whose
 methods can be used to calculate CIs, returning CI objects.
 '''
 
-
 from math import sqrt,pi,cos,sin,log
 import numpy as np
 from scipy import stats
 from scipy.special import gamma
 from matplotlib import pyplot as plt
+import spm1d
 from . ellipse import BivariateCI20D, BivariateConfidenceEllipse0D, BivariatePredictionEllipse0D
 from . ellipse import BivariateCI21D, BivariateConfidenceEllipse1D, BivariatePredictionEllipse1D
 from . interval import ConfidenceInterval0D,PredictionInterval0D
 from . interval import ConfidenceInterval1D,PredictionInterval1D
+from . plot import plot_multicolorline
+
+
+
 
 
 
@@ -278,5 +282,7 @@ class BivariateDataset1D(_BivariateDataset, _Dataset1D):
 		ax1.set_title('Component 2')
 		ax0.legend()
 		
+	def plot_multicolorline(self, other):
+		pass
 
 	

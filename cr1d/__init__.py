@@ -1,6 +1,6 @@
 
 from . import datasetdefs as ds
-from . import ellipse
+from . import ellipse,plot
 
 BivariateDataset0D  = ds.BivariateDataset0D
 BivariateDataset1D  = ds.BivariateDataset1D
