@@ -16,9 +16,9 @@ Requirements:
 * [spm1d](http://www.spm1d.org)
 
 
-Please consider citing:
+Please cite:
 
 Pataky TC, Yamagata M, Ichihashi N, Duarte M (in review). Correction to ``CI2 for creating and comparing confidence-intervals for time-series bivariate plots'', with clarifications of confidence vs. prediction regions and 0D vs. 1D analyses. Gait & Posture.
 
 
-<mark>Note</mark>: **cr1d** does not support ellipsoid or hyperellipsoids calculations for multivariate data, they are not implemented in this package because they cannot be readily visualized.
+<span style="background-color: #FFFF00">Note</span>: **cr1d** does not support ellipsoid or hyperellipsoids calculations for multivariate data, they are not implemented in this package because they cannot be readily visualized.
