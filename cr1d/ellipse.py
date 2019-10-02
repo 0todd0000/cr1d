@@ -132,7 +132,8 @@ class _BivariateEllipse0D(_Ellipse):
 	def plot(self, ax=None, n=51, **kwdargs):
 		ax       = self._ds._gca(ax)
 		x,y      = self.sample(n=51).T
-		ax.plot(x, y, label=self.label_short, **kwdargs)
+		h        = ax.plot(x, y, label=self.label_short, **kwdargs)[0]
+		return h
 	
 	def plot_patch(self, ax=None, **kwdargs):
 		ax                = self._ds._gca(ax)

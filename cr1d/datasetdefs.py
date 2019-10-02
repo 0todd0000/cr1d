@@ -206,10 +206,12 @@ class BivariateDataset0D(_BivariateDataset):
 	def plot(self, ax=None, plot_sample_mean=True, **kwdargs):
 		ax  = self._gca(ax)
 		x,y = self.y.T
-		ax.plot(x, y, 'o', **kwdargs)
+		h   = ax.plot(x, y, 'o', **kwdargs)[0]
 		if plot_sample_mean:
 			x,y  = self.mean
-			ax.plot( x, y, 'ko', ms=15, mfc='w', label='Sample mean')
+			hh   = ax.plot( x, y, 'ko', ms=15, mfc='w', label='Sample mean')[0]
+			h    = [h,hh]
+		return h
 
 
 
