@@ -284,15 +284,15 @@ class BivariateDataset1D(_BivariateDataset, _Dataset1D):
 		ax1.set_title('Component 2')
 		ax0.legend()
 		
-	def plot_ci2style(self, ax, other, z=None, cmap='jet', w=0.1, ec=None, ew=1, vmin=None, vmax=None, th=None):
-		self.plot_multicolorline(ax, z=z, cmap=cmap, w=w, ec=ec, ew=ew, vmin=vmin, vmax=vmax, th=th)
-		other.plot_multicolorline(ax, z=z, cmap=cmap, w=w, ec=ec, ew=ew, vmin=vmin, vmax=vmax, th=th)
+	def plot_ci2style(self, ax, other, z=None, cmap='jet', alpha=0.5, w=0.1, ec=None, ew=1, vmin=None, vmax=None, th=None):
+		self.plot_multicolorline(ax, z=z, cmap=cmap, alpha=alpha, w=w, ec=ec, ew=ew, vmin=vmin, vmax=vmax, th=th)
+		other.plot_multicolorline(ax, z=z, cmap=cmap, alpha=alpha, w=w, ec=ec, ew=ew, vmin=vmin, vmax=vmax, th=th)
 		
 
 
-	def plot_multicolorline(self, ax, z=None, cmap='jet', w=0.1, ec=None, ew=1, vmin=None, vmax=None, th=None):
+	def plot_multicolorline(self, ax, z=None, cmap='jet', alpha=0.5, w=0.1, ec=None, ew=1, vmin=None, vmax=None, th=None):
 		x,y = self.y.mean(axis=0).T
-		plot_multicolorline(ax, x, y, z, cmap=cmap, w=w, ec=ec, vmin=vmin, vmax=vmax, th=th)
+		plot_multicolorline(ax, x, y, z, cmap=cmap, alpha=alpha, w=w, ec=ec, vmin=vmin, vmax=vmax, th=th)
 		
 
 
