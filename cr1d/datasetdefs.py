@@ -18,7 +18,7 @@ from . ellipse import BivariateCI20D, BivariateConfidenceEllipse0D, BivariatePre
 from . ellipse import BivariateCI21D, BivariateConfidenceEllipse1D, BivariatePredictionEllipse1D
 from . interval import ConfidenceInterval0D,PredictionInterval0D
 from . interval import ConfidenceInterval1D,PredictionInterval1D
-from . plot import plot_multicolorline
+from . plot import plot_ci2style, plot_multicolorline
 
 
 
@@ -284,7 +284,16 @@ class BivariateDataset1D(_BivariateDataset, _Dataset1D):
 		ax1.set_title('Component 2')
 		ax0.legend()
 		
-	def plot_multicolorline(self, other):
-		pass
+	def plot_ci2style(self, ax, other, z=None, cmap='jet', w=0.1, ec=None, ew=1, vmin=None, vmax=None, th=None):
+		self.plot_multicolorline(ax, z=z, cmap=cmap, w=w, ec=ec, ew=ew, vmin=vmin, vmax=vmax, th=th)
+		other.plot_multicolorline(ax, z=z, cmap=cmap, w=w, ec=ec, ew=ew, vmin=vmin, vmax=vmax, th=th)
+		
+
+
+	def plot_multicolorline(self, ax, z=None, cmap='jet', w=0.1, ec=None, ew=1, vmin=None, vmax=None, th=None):
+		x,y = self.y.mean(axis=0).T
+		plot_multicolorline(ax, x, y, z, cmap=cmap, w=w, ec=ec, vmin=vmin, vmax=vmax, th=th)
+		
+
 
 	
