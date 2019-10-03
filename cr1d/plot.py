@@ -209,7 +209,8 @@ class MultiColorPatchLine(PatchLine):
 		# threshold:
 		z      = self.z.copy()
 		if th is not None:
-			z[z<th] = vmin
+			# z[z<th] = vmin
+			z[z<th] = np.nan
 		zn     = (z-vmin) / (vmax-vmin)
 		# set colormap:
 		if cmap in ['spm', 'spm_warm', 'spm_cool']:
@@ -217,8 +218,13 @@ class MultiColorPatchLine(PatchLine):
 			cmap  = eval('spmcm.%s()'%cmap)
 		else:
 			cmap  = eval('plt.cm.%s'%cmap)
+		# cmap.set_bad(color='b', alpha=0.5)
+		cmap.set_under(color='0.9', alpha=0.5)
+		# cmap.set_over(color='b', alpha=0.5)
+		
 		colors = cmap( zn )
-		plt.setp(coll, alpha=alpha, facecolor=colors, lw=ew, edgecolor=ec)
+		# plt.setp(coll, alpha=alpha, facecolor=colors, lw=ew, edgecolor=ec)
+		plt.setp(coll, facecolor=colors, lw=ew, edgecolor=ec)
 		ax.autoscale()
 		return patches
 
