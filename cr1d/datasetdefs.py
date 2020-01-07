@@ -14,8 +14,8 @@ from scipy import stats
 from scipy.special import gamma
 from matplotlib import pyplot as plt
 import spm1d
-from . ellipse import BivariateCI20D, BivariateConfidenceEllipse0D, BivariatePredictionEllipse0D
-from . ellipse import BivariateCI21D, BivariateConfidenceEllipse1D, BivariatePredictionEllipse1D
+from . ellipse import BivariateConfidenceEllipse0D, BivariatePredictionEllipse0D
+from . ellipse import BivariateConfidenceEllipse1D, BivariatePredictionEllipse1D
 from . interval import ConfidenceInterval0D,PredictionInterval0D
 from . interval import ConfidenceInterval1D,PredictionInterval1D
 from . plot import plot_ci2style, plot_multicolorline
