@@ -15,10 +15,10 @@ __version__  = '0.0.1'
 
 
 from . import data
-from . import datasetdefs as ds
+from . dtypes import Univariate0D
 from . import ellipse,plot
 
-BivariateDataset0D  = ds.BivariateDataset0D
-BivariateDataset1D  = ds.BivariateDataset1D
-UnivariateDataset0D = ds.UnivariateDataset0D
-UnivariateDataset1D = ds.UnivariateDataset1D
+# BivariateDataset0D  = dtypes.Bivariate0D
+# BivariateDataset1D  = dtypes.Bivariate1D
+# UnivariateDataset0D = dtypes.Univariat0D
+# UnivariateDataset1D = dtypes.Univariat1D
