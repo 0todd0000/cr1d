@@ -1,13 +1,15 @@
 # cr1d
-A Python package for computing confidence and prediction regions for 0D and 1D univariate and bivariate data.
+A Python package for computing confidence and prediction regions for 0D and 1D uni-, bi- and tri-variate data.
+
+____
 
 This package contains:
 
-* Functions and classes for computing and displaying confidence regions and predictions regions for 0D and 1D datasets
+* Functions and classes for computing and visualizing confidence and prediction regions
 * Scripts for replicating results from the main paper (see below)
-* Notebooks for reviewing theory and for standalone, step-by-step calculations
+* Notebooks for reviewing fundamentals, with standalone, step-by-step calculations
 
-Requirements:
+Dependencies:
 
 * Python 3.x
 * NumPy
@@ -16,13 +18,8 @@ Requirements:
 * [spm1d](http://www.spm1d.org)
 
 
-Please cite:
-
-Pataky TC, Yamagata M, Ichihashi N, Duarte M (in review). Correction to ``CI2 for creating and comparing confidence-intervals for time-series bivariate plots'', with clarifications of confidence vs. prediction regions and 0D vs. 1D analyses. Gait & Posture.
-
 ____
 
-:bangbang: WARNING! **cr1d** regions pertain only to ONE-SAMPLE designs and should NOT be used in for other designs, like two-sample comparisons, paired comparisons or ANOVA. 
+Please cite:
 
-
-:black_small_square: Note: **cr1d** does not support ellipsoid or hyperellipsoid calculations (i.e., confidence regions for multivariate data with more than two components).
+Pataky TC, Duarte M (in review). cr1d:  a Python package for constructing and visualizing confidence and prediction regions for zero- or one-dimensional and uni-, bi- or tri-variate data. Journal of Open Source Software.
