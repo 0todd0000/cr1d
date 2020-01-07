@@ -9,7 +9,7 @@ __all__ = ['cr', 'confidence_region']
 
 
 import numpy as np
-from . util import as_cr1d_data
+from . util import as_cr1d_dtype
 
 
 
@@ -20,7 +20,7 @@ from . util import as_cr1d_data
 
 
 def cr(y, alpha=0.05):
-	d = as_cr1d_data(y)
+	d = as_cr1d_dtype(y)
 	return d.get_confidence_region(alpha=alpha)
 
 confidence_region = cr
