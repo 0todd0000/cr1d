@@ -246,21 +246,7 @@ class BivariateConfidenceEllipse0D(_BivariateEllipse0D):
 		self.L1     = b
 
 
-class BivariateCI20D(_BivariateEllipse0D):
-	region_type       = 'CI2'
-	region_type_short = 'CI2'
 
-	def set_alpha(self, alpha):
-		k           = (-2*log(alpha))**.5
-		ABCD        = self._ds.get_cov(bias=0)
-		lam,IJKL    = np.linalg.eig(ABCD)
-		lambdas     = np.matrix(np.diag(lam))
-		theta       = np.arctan2(IJKL[1,:], IJKL[0,:])
-		ind         = np.argsort(lam)
-		axes        = (k * lam**0.5)[ind][::-1]
-		self.alpha  = alpha
-		self.L0     = axes[0]
-		self.L1     = axes[1]
 
 
 class BivariatePredictionEllipse0D(_BivariateEllipse0D):
@@ -302,26 +288,7 @@ class BivariateConfidenceEllipse1D(_BivariateEllipse1D):
 
 
 
-class BivariateCI21D(_BivariateEllipse1D):
-	region_type       = 'ci2'
-	region_type_short = 'ci2'
-	Class0D           = BivariateCI20D
 
-	def set_alpha(self, alpha, dmy=None):
-		k           = (-2*log(alpha))**.5
-		ABCD        = self._ds.get_cov(bias=0)
-		L0,L1       = [],[]
-		for abcd in ABCD:
-			lam,IJKL    = np.linalg.eig(abcd)
-			lambdas     = np.matrix(np.diag(lam))
-			theta       = np.arctan2(IJKL[1,:], IJKL[0,:])
-			ind         = np.argsort(lam)
-			axes        = (k * lam**0.5)[ind][::-1]
-			L0.append(axes[0])
-			L1.append(axes[1])
-		self.alpha  = alpha
-		self.L0     = np.array(L0)
-		self.L1     = np.array(L1)
 
 
 class BivariatePredictionEllipse1D(_BivariateEllipse1D):
