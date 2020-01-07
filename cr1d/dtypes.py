@@ -8,6 +8,9 @@ use the bici.data module to create bivariate dataset objects, whose
 methods can be used to calculate CIs, returning CI objects.
 '''
 
+__all__ = ['Univariate0D']
+
+
 from math import sqrt,pi,cos,sin,log
 import numpy as np
 from scipy import stats

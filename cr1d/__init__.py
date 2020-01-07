@@ -15,8 +15,12 @@ __version__  = '0.0.1'
 
 
 from . import data
-from . dtypes import Univariate0D
-from . import ellipse,plot
+from . dtypes import *
+from . import ellipse
+from . import plot
+from . ui import *
+from . util import *
+
 
 # BivariateDataset0D  = dtypes.Bivariate0D
 # BivariateDataset1D  = dtypes.Bivariate1D
