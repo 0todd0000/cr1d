@@ -30,9 +30,11 @@ class ExpectedResults(object):
 
 class _CR1DDataset(object):
 	_rtol             = 0.001  # relative tolerance (for unit tests)
+	alpha             = 0.05
 	design            = None   # design string (e.g. "One-way ANOVA")
 	expected          = ExpectedResults() # expected results (for unit tests)
 	m                 = None   # dependent variable dimensionality
+	# mu                = None   # hypothesized population mean (if any)
 	n                 = None   # domain dimensionality
 	notes             = None   # dataset notes (if any)
 	reference         = None   # literature reference (if it exists)
