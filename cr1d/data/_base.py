@@ -32,7 +32,7 @@ class _CR1DDataset(object):
 	_rtol             = 0.001  # relative tolerance (for unit tests)
 	alpha             = 0.05
 	design            = None   # design string (e.g. "One-way ANOVA")
-	expected          = ExpectedResults() # expected results (for unit tests)
+	expected          = None   # expected results (for unit tests)
 	m                 = None   # dependent variable dimensionality
 	# mu                = None   # hypothesized population mean (if any)
 	n                 = None   # domain dimensionality
@@ -41,11 +41,15 @@ class _CR1DDataset(object):
 	url_datafile      = None   # link to data file on web (if any)
 	url_description   = None   # link to data description on web (if any)
 	y                 = None   # dependent variable values
+	A                 = None   # independent variable values (if any)
 	
 	
 	
 	def __init__(self):
-		self.y        = np.load( self.datafile )
+		self.expected = ExpectedResults() # expected results (for unit tests)
+		self._load()
+		
+		
 	
 	
 	def __repr__(self):
@@ -68,10 +72,14 @@ class _CR1DDataset(object):
 			s += f'   {self.notes}'
 		return s
 	
+	def _load(self):
+		self.y = np.loadtxt( self.datafile, delimiter=',', skiprows=1 )
+	
+	
 	@property
 	def datafile(self):
 		dir0  = os.path.dirname(__file__)
-		fname = os.path.join(dir0, 'datafiles', f'{self.name}.npy')
+		fname = os.path.join(dir0, 'datafiles', f'{self.name}.csv')
 		return fname
 	@property
 	def dim(self):
