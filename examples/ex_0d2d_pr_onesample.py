@@ -7,18 +7,25 @@ import cr1d
 
 # Load data:
 dataset = cr1d.data.Iris()
+y       = dataset.y
 # y0,y1   = dataset.y
 print(dataset)
 print('\n\n\n')
 
 
+d = cr1d.util.as_cr1d_dtype(y)
 
-#
-#
-#
+
+
+
 # # Calculate confidence region:
-# dcr,cr0,cr1 = cr1d.confidence_region_twosample(y0, y1)
-# print(dcr)  #confidence region for the mean difference
+# pr      = cr1d.prediction_region(y)
+# print(pr)
+
+
+
+
+
 #
 #
 # # Check that (a) and (b) are equal, where:
