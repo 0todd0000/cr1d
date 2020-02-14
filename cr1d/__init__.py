@@ -15,11 +15,16 @@ __version__  = '0.0.1'
 
 
 from . import data
+from . colors import CR1DColorMap
 from . dtypes import *
 from . import ellipse
 from . import plot
 from . ui import *
 from . util import *
+
+
+
+cmap = CR1DColorMap(set_color_cycler=True)
 
 
 # BivariateDataset0D  = dtypes.Bivariate0D

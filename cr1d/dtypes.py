@@ -20,6 +20,7 @@ import spm1d
 from . ellipse import BivariateConfidenceEllipse0D, BivariatePredictionEllipse0D
 from . ellipse import BivariateConfidenceEllipse1D, BivariatePredictionEllipse1D
 from . interval import ConfidenceInterval0D,PredictionInterval0D
+from . interval import MeanDifferenceConfidenceInterval0D
 from . interval import ConfidenceInterval1D,PredictionInterval1D
 from . plot import plot_ci2style, plot_multicolorline
 
@@ -93,12 +94,15 @@ class Univariate0D(_DType):
 		
 		
 	def get_confidence_region(self, alpha=0.05):
-		ci    = ConfidenceInterval0D(self, alpha)
-		return ci
+		return ConfidenceInterval0D(self, alpha)
 
+	def get_twosample_confidence_region(self, other, alpha=0.05, equal_var=False):
+		dcr = MeanDifferenceConfidenceInterval0D(self, other, alpha, equal_var)
+		cr0,cr1 = dcr.map_to_means(self, other)
+		return dcr,cr0,cr1
+	
 	def get_prediction_region(self, alpha=0.05):
-		ci    = PredictionInterval0D(self, alpha)
-		return ci
+		return PredictionInterval0D(self, alpha)
 
 	def plot(self, ax=None, x=None, plot_sample_mean=True):
 		ax  = self._gca(ax)
