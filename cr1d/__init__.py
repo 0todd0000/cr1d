@@ -14,8 +14,8 @@ __version__  = '0.0.1'
 
 
 
+from . import colors
 from . import data
-from . colors import CR1DColorMap
 from . dtypes import *
 from . import ellipse
 from . import plot
@@ -24,7 +24,10 @@ from . util import *
 
 
 
-cmap = CR1DColorMap(set_color_cycler=True)
+cmap              = colors.CR1DColorMap()
+reset_color_cycle = colors.reset_color_cycle
+set_color_cycle   = colors.set_color_cycle
+
 
 
 # BivariateDataset0D  = dtypes.Bivariate0D

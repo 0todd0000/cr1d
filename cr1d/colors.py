@@ -1,7 +1,34 @@
 
+from copy import deepcopy
 import numpy as np
 from matplotlib import pyplot as plt
 from matplotlib import colors
+
+
+_cycle_default = deepcopy( plt.rcParams['axes.prop_cycle'] )
+
+
+def reset_color_cycle():
+	set_color_cycle('default')
+
+def set_color_cycle(cyclename=None):
+	cyclename = 'cr1d' if (cyclename is None) else cyclename
+	setter    = ColorCycleSetter()
+	setter.set_cycle( cyclename )
+
+
+
+
+class ColorCycleSetter(object):
+	def __init__(self):
+		self.cycle_default = _cycle_default
+		self.cycle_cr1d    = plt.cycler( color=CR1DColorMap().hex )
+		
+	def set_cycle(self, cyclename='cr1d'):
+		if cyclename not in ['cr1d', 'default']:
+			raise ValueError('"cyclename" must be "cr1d" or "default"')
+		cycle = self.cycle_cr1d if (cyclename == 'cr1d') else self.cycle_default
+		plt.rcParams['axes.prop_cycle'] = cycle
 
 
 class CR1DColorMap(object):
@@ -16,11 +43,6 @@ class CR1DColorMap(object):
 		(127,156,172),
 		(192,163,108),
 	]
-	
-	def __init__(self, set_color_cycler=True):
-		if set_color_cycler:
-			plt.rcParams['axes.prop_cycle'] = plt.cycler(color=self.hex)
-		
 	
 	@property
 	def name(self):
@@ -51,4 +73,5 @@ class CR1DColorMap(object):
 
 
 
+	
 

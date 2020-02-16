@@ -13,7 +13,7 @@ print(dataset)
 print('\n\n\n')
 
 
-d = cr1d.util.as_cr1d_dtype(y)
+# d = cr1d.util.as_cr1d_dtype(y)
 
 
 

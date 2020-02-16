@@ -2,6 +2,8 @@
 import numpy as np
 from matplotlib import pyplot as plt
 import cr1d
+cr1d.set_color_cycle()
+# cr1d.set_color_cycle('default')
 
 
 
@@ -22,3 +24,5 @@ print(cr)
 plt.close('all')
 cr.plot()
 plt.show()
+
+
