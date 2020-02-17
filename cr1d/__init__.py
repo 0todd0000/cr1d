@@ -14,10 +14,8 @@ __version__  = '0.0.1'
 
 
 
-from . import colors
 from . import data
-from . dtypes import *
-from . dtypes import Dataset
+from . import dtypes
 from . import ellipse
 from . import plot
 from . ui import *
@@ -25,12 +23,12 @@ from . import util
 
 
 
-cmap              = colors.CR1DColorMap()
-reset_color_cycle = colors.reset_color_cycle
-set_color_cycle   = colors.set_color_cycle
+cmap              = plot.colors.CR1DColorMap()
+reset_color_cycle = plot.colors.reset_color_cycle
+set_color_cycle   = plot.colors.set_color_cycle
 
 
-
+Dataset      = dtypes.Dataset
 Univariate0D = dtypes.Univariate0D
 Univariate1D = dtypes.Univariate1D
 Bivariate0D  = dtypes.Bivariate0D
