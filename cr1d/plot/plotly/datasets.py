@@ -3,51 +3,47 @@ plotly datasets
 '''
 
 
-
 import numpy as np
-from matplotlib import pyplot as plt
-from mpl_toolkits import mplot3d
-
-
-# import plotly.graph_objects as go
-#
-# x,y,z = np.random.randn(50, 3).T
-#
-# s3d = go.Scatter3d(x=x, y=y, z=z, mode='markers')
-#
-# fig = go.Figure(data=[s3d])
-# fig.show()
+import plotly.graph_objects as go
+# from plotly.subplots import make_subplots
 
 
 
 
 class DatasetPlotter(object):
-	def __init__(self, ax):
-		self.ax  = self._gca(ax)  # axes object
+	def __init__(self, fig):
+		self.fig  = fig  # figure object
 		
 		
-	@staticmethod
-	def _gca(ax):
-		if ax is None:
-			ax = plt.gca()
-		else:
-			assert isinstance(ax, plt.Axes), 'ax must be None or a matplotlib axes object'
-		return ax
+	# @staticmethod
+	# def _gca(ax):
+	# 	if ax is None:
+	# 		ax = plt.gca()
+	# 	else:
+	# 		assert isinstance(ax, plt.Axes), 'ax must be None or a matplotlib axes object'
+	# 	return ax
+	#
+	# def _ensure3d(self):
+	# 	if not isinstance(self.ax, mplot3d.Axes3D):
+	# 		bbox    = self.ax.get_position()
+	# 		plt.delaxes(self.ax)
+	# 		self.ax = plt.axes(bbox, projection='3d')
+		
+		
 	
-	def _ensure3d(self):
-		if not isinstance(self.ax, mplot3d.Axes3D):
-			bbox    = self.ax.get_position()
-			plt.delaxes(self.ax)
-			self.ax = plt.axes(bbox, projection='3d')
+	
+	def scatter(self, x, y, **kwdargs):
 		
 		
-	
-	
-	def scatter(self, *args, **kwdargs):
-		return self.ax.scatter(*args, **kwdargs)
-		#
-		# x      = 0 if (x is None) else x
-		# ax,J   = self.ax, self.d.J
+		trace   = go.Scatter(x=x, y=y, mode='markers')
+		row,col = None, None
+		if 'row' in kwdargs.keys():
+			row,col = kwdargs['row'], kwdargs['col']
+		self.fig.add_trace( trace , row=row, col=col )
+		
+
+		
+		
 		# h      = self.ax.scatter(x*np.ones(J), self.y, **kwdargs)
 		# if plot_sample_mean:
 		# 	fc = h.get_facecolor()[0][:3]
@@ -57,9 +53,15 @@ class DatasetPlotter(object):
 		# else:
 		# 	return h
 		
-	def scatter3d(self, *args, **kwdargs):
-		self._ensure3d()
-		return self.ax.scatter(*args, **kwdargs)
+	def scatter3d(self, x, y, z, **kwdargs):
+		trace = go.Scatter3d(x=x, y=y, z=z, mode='markers')
+		row,col = None, None
+		if 'row' in kwdargs.keys():
+			row,col = kwdargs['row'], kwdargs['col']
+		self.fig.add_trace( trace , row=row, col=col )
+		
+		
+		# return self.ax.scatter(*args, **kwdargs)
 
 
 

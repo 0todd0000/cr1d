@@ -28,6 +28,7 @@ class Univariate0D(_Dataset):
 	def get_confidence_region(self, alpha=0.05):
 		return ConfidenceInterval0D(self, alpha)
 
+	
 	def get_twosample_confidence_region(self, other, alpha=0.05, equal_var=False):
 		dcr = MeanDifferenceConfidenceInterval0D(self, other, alpha, equal_var)
 		cr0,cr1 = dcr.map_to_means(self, other)
@@ -40,12 +41,12 @@ class Univariate0D(_Dataset):
 		plotter = DatasetPlotter(ax)
 		x       = 0 if (x is None) else x
 		h0      = plotter.scatter(x*np.ones(self.J), self.y, **kwdargs)
-		h1      = None
-		if plot_sample_mean:
-			fc  = h0.get_facecolor()[0][:3]
-			ec  = h0.get_edgecolor()[0][:3]
-			h1  = plotter.scatter( [x], [self.mean], s=200, fc=fc, ec=ec, alpha=0.5)
-		return h0,h1
+		# h1      = None
+		# if plot_sample_mean:
+		# 	fc  = h0.get_facecolor()[0][:3]
+		# 	ec  = h0.get_edgecolor()[0][:3]
+		# 	h1  = plotter.scatter( [x], [self.mean], s=200, fc=fc, ec=ec, alpha=0.5)
+		# return h0,h1
 		
 
 
@@ -60,12 +61,12 @@ class Bivariate0D(_Dataset):
 		plotter = DatasetPlotter(ax)
 		y0,y1   = self.y.T
 		h0      = plotter.scatter(y0, y1, **kwdargs)
-		h1      = None
-		if plot_sample_mean:
-			fc  = h0.get_facecolor()[0][:3]
-			ec  = h0.get_edgecolor()[0][:3]
-			h1  = plotter.scatter( *self.mean, s=200, fc=fc, ec=ec, alpha=0.5)
-		return h0,h1
+		# h1      = None
+		# if plot_sample_mean:
+		# 	fc  = h0.get_facecolor()[0][:3]
+		# 	ec  = h0.get_edgecolor()[0][:3]
+		# 	h1  = plotter.scatter( *self.mean, s=200, fc=fc, ec=ec, alpha=0.5)
+		# return h0,h1
 
 
 

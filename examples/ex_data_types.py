@@ -85,7 +85,7 @@ d5      = cr1d.Dataset(y5)
 # Plot:
 plt.close('all')
 fig,ax  = plt.subplots(2, 3, figsize=(12,6))
-h0,h1   = d0.plot(ax=ax[0,0])
+d0.plot(ax=ax[0,0])
 d1.plot(ax=ax[0,1])
 d2.plot(ax=ax[0,2])
 d3.plot(ax=ax[1,0])
