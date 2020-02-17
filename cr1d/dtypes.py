@@ -8,7 +8,7 @@ use the bici.data module to create bivariate dataset objects, whose
 methods can be used to calculate CIs, returning CI objects.
 '''
 
-__all__ = ['Univariate0D']
+__all__ = ['Univariate0D', 'Bivariate0D', 'Trivariate0D',   'Univariate1D', 'Bivariate1D', 'Trivariate1D']
 
 
 from math import sqrt,pi,cos,sin,log
@@ -27,13 +27,54 @@ from . plot import plot_ci2style, plot_multicolorline
 
 
 
+def as_cr1d_dtype(y):
+	y = np.asarray(y)
+	if y.ndim == 1:
+		d     = Univariate0D(y)
+	elif y.ndim == 2:
+		m,n = y.shape
+		if n==2:
+			d = Bivariate0D(y)
+		elif n==3:
+			d = Trivariate0D(y)
+		else:
+			d = Univariate1D(y)
+	elif y.ndim == 3:
+		J,Q,I = y.shape
+		if I==2:
+			d = Bivariate1D(y)
+		elif I==3:
+			d = Trivariate1D(y)
+		else:
+			raise ValueError( f'For 3-dimensional arrays with shape (n0,n1,n2): n2 must be 2 or 3. Detected n2 = {I}')
+	else:
+		raise ValueError( f'Array must be 1, 2 or 3 dimensional. Number of dimensions detected: {y.ndim}')
+	return d
 
 
-class _DType(object):
+
+def Dataset(y):
+	return as_cr1d_dtype(y)
+
+
+
+class _Dataset(object):
 	
-	y = None    #data
-	J = None    #sample size`
+	_dim  = 1       # required array dimension
+	_I    = None    # required number of vector components
+	_minJ = 3       # minimum number of observations supported in cr1d
+	_minQ = None    # minimum number of domain nodes supported in cr1d
+	y     = None    # data
+	dim   = 0       # domain dimensionality
+	J     = None    # sample size
+	Q     = None    # number of measurement domain nodes
+	I     = None    # number of vector components
 	
+	def __init__(self, y):
+		self.y   = np.asarray(y)
+		self._init()
+
+
 	@staticmethod
 	def _gca(ax):
 		if ax is None:
@@ -52,37 +93,98 @@ class _DType(object):
 	def std(self):
 		return self.y.std(axis=0, ddof=1)
 	@property
-	def n_observations(self):
+	def ncomponents(self):
+		return self.I
+	@property
+	def ndim(self):
+		return self.y.ndim
+	@property
+	def nobservations(self):
 		return self.J
+	@property
+	def nnodes(self):
+		return self.Q
 	@property
 	def sample_size(self):
 		return self.J
+	@property
+	def shape(self):
+		return self.y.shape
 
+	def _assert_array(self):
+		pass
+	
+	
+	def _assert_dim(self):
+		assert self.y.ndim==self._dim, f'"y" must be a {self._dim}-dimensional array'
+		
+	def _assert_I(self, I):
+		assert I==self._I, f'The second dimension of "y" must be {self._I}.  Dimensionality detected: {I}'
+	def _assert_J(self, J):
+		assert J>=self._minJ, f'There must be at least {self._minJ} observations (i.e., the first dimension of "y" must be at least {self._minJ}).  Number of observations detected: {J}'
+	def _assert_Q(self, Q):
+		assert Q>=self._minQ, f'There must be at least {self._minQ} domain nodes (i.e., the second dimension of "y" must be at least {self._minQ}).  Number of nodes detected: {Q}'
+
+	def _assert_no_nan(self):
+		pass
+	
+	def _assert_numeric(self):
+		pass
+		
+	def _assert_zero_variance(self):
+		pass
+	
+	
+	
+	
+	def _init(self):
+		# assert dimensionality:
+		self._assert_array()
+		self._assert_dim()
+		self._assert_numeric()
+		self._assert_no_nan()
+		self._assert_zero_variance()
+		
+		# assert number of observations
+		self._assert_J( self.y.shape[0] )
+		
+		# assert number of vector components
+		if self._I is not None:
+			if self.ndim==2:
+				self._assert_I( self.y.shape[1] )
+			else:
+				self._assert_I( self.y.shape[2] )
+
+		# assert number of domain nodes
+		if self._minQ is not None:
+			self._assert_Q( self.y.shape[1] )
+
+
+	
+	
+	
 	def toarray(self):
 		return self.y.copy()
 
 
 
-# class _Dataset1D(_DType):
-#
-# 	Q = None    #number of continuum nodes
-#
-# 	def _getx(self, x):
-# 		return np.arange(self.Q) if (x is None) else x
-#
-# 	@property
-# 	def nnodes(self):
-# 		return self.Q
+class _Dataset1D(_Dataset):
 	
+	_minQ = 10    # minimum number of domain nodes supported in cr1d
+	dim   = 1     # domain dimensionality
+
+	def _getx(self, x):
+		return np.arange(self.Q) if (x is None) else x
 
 
 
-class Univariate0D(_DType):
-	def __init__(self, y):
-		self.y   = np.asarray(y)
-		assert self.y.ndim==1, 'Data must be a list of scalars or a one-dimensional array'
-		self.J   = self.y.shape[0]  #number of observations
-		
+
+
+
+class Univariate0D(_Dataset):
+	
+	_dim = 1
+
 	
 	def __repr__(self):
 		s  = 'CR1D Data (%s)\n' %self.__class__.__name__
@@ -110,6 +212,49 @@ class Univariate0D(_DType):
 		ax.plot(x*np.ones(self.J), self.y, 'ko', label='Observations', mfc='0.3')
 		if plot_sample_mean:
 			ax.plot( x, self.mean, 'ko', label='Sample mean', ms=15, mfc='w')
+
+
+
+class Bivariate0D(_Dataset):
+	
+	_dim = 2
+	_I   = 2
+
+
+
+
+class Trivariate0D(_Dataset):
+	
+	_dim = 2
+	_I   = 3
+	
+
+
+
+
+
+class Univariate1D(_Dataset1D):
+
+	_dim = 2
+	
+
+
+class Bivariate1D(_Dataset1D):
+	
+	_dim = 3
+	_I   = 2
+	
+
+	
+class Trivariate1D(_Dataset1D):
+	
+	_dim = 3
+	_I   = 3
+	
+
+
+
+
 
 
 

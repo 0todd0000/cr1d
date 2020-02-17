@@ -17,10 +17,11 @@ __version__  = '0.0.1'
 from . import colors
 from . import data
 from . dtypes import *
+from . dtypes import Dataset
 from . import ellipse
 from . import plot
 from . ui import *
-from . util import *
+from . import util
 
 
 
@@ -30,7 +31,9 @@ set_color_cycle   = colors.set_color_cycle
 
 
 
-# BivariateDataset0D  = dtypes.Bivariate0D
-# BivariateDataset1D  = dtypes.Bivariate1D
-# UnivariateDataset0D = dtypes.Univariat0D
-# UnivariateDataset1D = dtypes.Univariat1D
+Univariate0D = dtypes.Univariate0D
+Univariate1D = dtypes.Univariate1D
+Bivariate0D  = dtypes.Bivariate0D
+Bivariate1D  = dtypes.Bivariate1D
+Trivariate0D = dtypes.Trivariate0D
+Trivariate1D = dtypes.Trivariate1D
