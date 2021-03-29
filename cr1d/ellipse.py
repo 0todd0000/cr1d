@@ -17,7 +17,8 @@ from matplotlib import patches
 from spm1d import rft1d
 
 
-
+def _gca(ax):
+	return plt.gca() if (ax is None) else ax
 
 
 class _Ellipse(object):
@@ -130,13 +131,13 @@ class _BivariateEllipse0D(_Ellipse):
 
 
 	def plot(self, ax=None, n=51, **kwdargs):
-		ax       = self._ds._gca(ax)
+		ax       = _gca(ax)
 		x,y      = self.sample(n=51).T
 		h        = ax.plot(x, y, label=self.label_short, **kwdargs)[0]
 		return h
 	
 	def plot_patch(self, ax=None, **kwdargs):
-		ax                = self._ds._gca(ax)
+		ax                = _gca(ax)
 		Maxis             = self._ds.Maxis
 		theta             = 180/pi * atan2(Maxis[1], Maxis[0])
 		patch             = patches.Ellipse(self.centroid, 2*self.L0, 2*self.L1, theta)
@@ -145,7 +146,7 @@ class _BivariateEllipse0D(_Ellipse):
 		return patch
 
 	def plot_axes(self, ax=None, **kwdargs):
-		ax          = self._ds._gca(ax)
+		ax          = _gca(ax)
 		X0,Y0       = self.centroid - self.L0 * self.Maxis
 		X1,Y1       = self.centroid + self.L0 * self.Maxis
 		x0,y0       = self.centroid - self.L1 * self.maxis
@@ -155,7 +156,7 @@ class _BivariateEllipse0D(_Ellipse):
 		return h0,h1
 
 	def plot_semi_axes(self, ax=None, **kwdargs):
-		ax          = self._ds._gca(ax)
+		ax          = _gca(ax)
 		X0,Y0       = self.centroid
 		X1,Y1       = self.centroid + self.L0 * self.Maxis
 		x0,y0       = self.centroid

@@ -57,6 +57,41 @@ class Bivariate0D(_Dataset):
 	_I   = 2
 
 
+	def __init__(self, *args, **kwargs):
+		super().__init__(*args, **kwargs)
+		self._init_svd()
+	
+	def _init_svd(self):
+		U,s,R    = np.linalg.svd(self.cov)
+		if np.dot(U[:,0], [0,1]) < 0:
+			U   *= -1
+			R   *= -1
+		self._U  = U
+		self._s  = s
+		self._R  = R
+	
+	
+	@property
+	def Maxis(self):  #major axis unit vector
+		return self._U[:,0]
+	@property
+	def maxis(self):  #minor axis unit vector
+		return self._U[:,1]
+	@property
+	def ncomponents(self):
+		return self.I
+	
+	
+	
+	def get_confidence_region(self, alpha=0.05):
+		return BivariateConfidenceEllipse0D(self, alpha)
+
+	def get_cov(self, bias=1):
+		return np.cov(self.y.T, bias=bias)
+	
+	def get_prediction_region(self, alpha=0.05):
+		return BivariatePredictionEllipse0D(self, alpha)
+
 	def plot(self, ax=None, plot_sample_mean=True, **kwdargs):
 		plotter = DatasetPlotter(ax)
 		y0,y1   = self.y.T
@@ -68,6 +103,7 @@ class Bivariate0D(_Dataset):
 		# 	h1  = plotter.scatter( *self.mean, s=200, fc=fc, ec=ec, alpha=0.5)
 		# return h0,h1
 
+	cov = property(get_cov)
 
 
 
