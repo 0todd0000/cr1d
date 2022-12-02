@@ -98,7 +98,8 @@ class _Ellipse(object):
 		b   = float(rad) > 1   #check if points lie inside or outside the unit sphere
 		return b
 
-
+	def set_alpha(self, x):
+		pass
 
 
 class _BivariateEllipse0D(_Ellipse):
